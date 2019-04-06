@@ -6,7 +6,6 @@ import static io.restassured.RestAssured.given;
 
 public class PatientResourceTest extends RESTResourceTest {
 
-
     @Test
     public void testGetPatientList() {
 

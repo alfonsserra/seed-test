@@ -31,7 +31,7 @@ public class RESTResourceTest {
 
         RestAssured.port = seed.getMappedPort(8080);
         RestAssured.basePath = "/seed/v1/";
-        RestAssured.baseURI = "http://localhost";
+        RestAssured.baseURI = "http://"+seed.getContainerIpAddress();
         RestAssured.defaultParser = Parser.JSON;
         RestAssured.config = RestAssured.config().sslConfig(sslConfig().relaxedHTTPSValidation())
                 .and().objectMapperConfig((new ObjectMapperConfig().jackson2ObjectMapperFactory(

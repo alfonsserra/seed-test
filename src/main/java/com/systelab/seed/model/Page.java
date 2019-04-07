@@ -1,4 +1,4 @@
-package com.systelab.model;
+package com.systelab.seed.model;
 
 import lombok.Data;
 

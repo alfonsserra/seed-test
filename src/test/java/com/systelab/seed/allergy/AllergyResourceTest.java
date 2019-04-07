@@ -1,9 +1,10 @@
-package com.systelab;
+package com.systelab.seed.allergy;
 
-import com.systelab.model.AllergiesPage;
-import com.systelab.model.Allergy;
-import com.systelab.utils.FakeNameGenerator;
-import com.systelab.utils.TestUtil;
+import com.systelab.seed.RESTResourceTest;
+import com.systelab.seed.model.AllergiesPage;
+import com.systelab.seed.model.Allergy;
+import com.systelab.seed.utils.FakeNameGenerator;
+import com.systelab.seed.utils.TestUtil;
 import io.qameta.allure.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -42,7 +43,7 @@ public class AllergyResourceTest extends RESTResourceTest {
         Allergy allergy = getAllergyData(expectedName, expectedSigns);
         Allergy allergyCreated = given().body(allergy)
                 .when().post("/allergies/allergy")
-                .then().assertThat().statusCode(anyOf(is(200),is(201)))
+                .then().assertThat().statusCode(anyOf(is(200), is(201)))
                 .extract().as(Allergy.class);
         TestUtil.checkObjectIsNotNull("Allergy", allergyCreated);
         TestUtil.checkField("Name", expectedName, allergyCreated.getName());
@@ -58,7 +59,7 @@ public class AllergyResourceTest extends RESTResourceTest {
         Allergy allergy = getAllergyData(expectedName, expectedSigns, expectedSymptoms);
         Allergy allergyCreated = given().body(allergy)
                 .when().post("/allergies/allergy")
-                .then().assertThat().statusCode(anyOf(is(200),is(201)))
+                .then().assertThat().statusCode(anyOf(is(200), is(201)))
                 .extract().as(Allergy.class);
         TestUtil.checkObjectIsNotNull("Allergy", allergyCreated);
         TestUtil.checkField("Name", expectedName, allergyCreated.getName());
@@ -104,7 +105,7 @@ public class AllergyResourceTest extends RESTResourceTest {
             Allergy allergy = getAllergyData(aFakeNameGenerator.generateName(true), aFakeNameGenerator.generateName(true), aFakeNameGenerator.generateName(true));
             Allergy allergyCreated = given().body(allergy)
                     .when().post("/allergies/allergy")
-                    .then().assertThat().statusCode(anyOf(is(200),is(201)))
+                    .then().assertThat().statusCode(anyOf(is(200), is(201)))
                     .extract().as(Allergy.class);
 
             Assertions.assertNotNull(allergyCreated.getId(), "Allergy not created");
@@ -118,7 +119,7 @@ public class AllergyResourceTest extends RESTResourceTest {
 
         AllergiesPage allergiesBefore = given()
                 .when().get("/allergies")
-                .then().assertThat().statusCode(anyOf(is(200),is(201)))
+                .then().assertThat().statusCode(anyOf(is(200), is(201)))
                 .extract().as(AllergiesPage.class);
         long initialSize = allergiesBefore.getTotalElements();
         saveAllergiesDatabase(allergiesBefore.getContent());
@@ -127,7 +128,7 @@ public class AllergyResourceTest extends RESTResourceTest {
 
         AllergiesPage allergiesAfter = given()
                 .when().get("/allergies")
-                .then().assertThat().statusCode(anyOf(is(200),is(201)))
+                .then().assertThat().statusCode(anyOf(is(200), is(201)))
                 .extract().as(AllergiesPage.class);
         long finalSize = allergiesAfter.getTotalElements();
         saveAllergiesDatabase(allergiesAfter.getContent());
@@ -142,13 +143,13 @@ public class AllergyResourceTest extends RESTResourceTest {
         Allergy allergy = getAllergyData("Tree pollen", "Watering eyes", "Dry, red and cracked skin");
         Allergy allergyCreated = given().body(allergy)
                 .when().post("/allergies/allergy")
-                .then().assertThat().statusCode(anyOf(is(200),is(201)))
+                .then().assertThat().statusCode(anyOf(is(200), is(201)))
                 .extract().as(Allergy.class);
 
         TestUtil.checkObjectIsNotNull("Allergy ID " + allergyCreated.getId(), allergyCreated.getId());
         Allergy allergyRetrieved = given()
                 .when().get("/allergies/" + allergyCreated.getId())
-                .then().assertThat().statusCode(anyOf(is(200),is(201)))
+                .then().assertThat().statusCode(anyOf(is(200), is(201)))
                 .extract().as(Allergy.class);
         Assertions.assertNotNull(allergyRetrieved, "Allergy not retrieved");
         TestUtil.checkField("Name", "Tree pollen", allergyRetrieved.getName());
@@ -172,13 +173,13 @@ public class AllergyResourceTest extends RESTResourceTest {
         Allergy allergy = getAllergyData("Tree pollen", "Watering eyes", "Dry, red and cracked skin");
         Allergy allergyCreated = given().body(allergy)
                 .when().post("/allergies/allergy")
-                .then().assertThat().statusCode(anyOf(is(200),is(201)))
+                .then().assertThat().statusCode(anyOf(is(200), is(201)))
                 .extract().as(Allergy.class);
 
         Assertions.assertNotNull(allergyCreated, "Allergy not created");
         given()
                 .when().delete("/allergies/" + allergyCreated.getId())
-                .then().assertThat().statusCode(anyOf(is(200),is(201),is(202),is(203),is(204)));
+                .then().assertThat().statusCode(anyOf(is(200), is(201), is(202), is(203), is(204)));
 
         int statusCode = given()
                 .when().get("/allergies/" + allergyCreated.getId())
@@ -203,13 +204,13 @@ public class AllergyResourceTest extends RESTResourceTest {
         Allergy allergy = getAllergyData("Tree pollen", "Watering eyes", "Dry, red and cracked skin");
         Allergy allergyCreated = given().body(allergy)
                 .when().post("/allergies/allergy")
-                .then().assertThat().statusCode(anyOf(is(200),is(201)))
+                .then().assertThat().statusCode(anyOf(is(200), is(201)))
                 .extract().as(Allergy.class);
         Assertions.assertNotNull(allergyCreated, "Allergy not created");
         allergyCreated.setSymptoms("Sneezing");
         Allergy allergyUpdated = given().body(allergyCreated)
                 .when().put("/allergies/" + allergyCreated.getId())
-                .then().assertThat().statusCode(anyOf(is(200),is(201)))
+                .then().assertThat().statusCode(anyOf(is(200), is(201)))
                 .extract().as(Allergy.class);
         Assertions.assertNotNull(allergyUpdated, "Allergy not updated");
     }

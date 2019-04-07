@@ -1,4 +1,4 @@
-package com.systelab;
+package com.systelab.seed;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import io.restassured.RestAssured;
@@ -19,6 +19,7 @@ public class RESTResourceTest {
     protected static final String AUTHORIZATION_HEADER = "Authorization";
     private static RequestSpecBuilder requestSpecBuilder;
 
+
     private static String login(String username, String password) {
         return given().contentType("application/x-www-form-urlencoded").formParam("login", username).formParam("password", password).
                 when().post("/users/login").getHeader(AUTHORIZATION_HEADER);
@@ -31,7 +32,7 @@ public class RESTResourceTest {
 
         RestAssured.port = seed.getMappedPort(8080);
         RestAssured.basePath = "/seed/v1/";
-        RestAssured.baseURI = "http://"+seed.getContainerIpAddress();
+        RestAssured.baseURI = "http://" + seed.getContainerIpAddress();
         RestAssured.defaultParser = Parser.JSON;
         RestAssured.config = RestAssured.config().sslConfig(sslConfig().relaxedHTTPSValidation())
                 .and().objectMapperConfig((new ObjectMapperConfig().jackson2ObjectMapperFactory(

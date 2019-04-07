@@ -1,4 +1,4 @@
-package com.systelab.utils;
+package com.systelab.seed.utils;
 
 import io.qameta.allure.Step;
 import org.junit.jupiter.api.Assertions;

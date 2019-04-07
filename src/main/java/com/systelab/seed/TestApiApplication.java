@@ -1,4 +1,4 @@
-package com.systelab;
+package com.systelab.seed;
 
 public class TestApiApplication {
     public static void main(String[] args) {

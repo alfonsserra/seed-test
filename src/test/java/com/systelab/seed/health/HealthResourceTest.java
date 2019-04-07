@@ -1,20 +1,17 @@
-package com.systelab;
+package com.systelab.seed.health;
 
+import com.systelab.seed.RESTResourceTest;
 import io.restassured.http.ContentType;
-import org.junit.Test;
-import org.testcontainers.junit.jupiter.Testcontainers;
+import org.junit.jupiter.api.Test;
 
 import static io.restassured.RestAssured.given;
 
-@Testcontainers
 public class HealthResourceTest extends RESTResourceTest {
 
     @Test
     public void testHealth() {
-        System.out.println(seed.getContainerIpAddress());
         given().contentType(ContentType.TEXT)
                 .when().accept(ContentType.TEXT).get("/health")
                 .then().assertThat().statusCode(200);
     }
-
 }

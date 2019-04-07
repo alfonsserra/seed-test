@@ -1,27 +1,19 @@
 package com.systelab.seed.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-
 import java.sql.Timestamp;
 import java.util.UUID;
 
-@Data
-@EqualsAndHashCode
-@AllArgsConstructor
-
 public class User {
 
-    protected UUID id;
-    protected Timestamp creationTime;
-    protected Timestamp updateTime;
-    private String surname;
+    public UUID id;
+    public Timestamp creationTime;
+    public Timestamp updateTime;
+    public String surname;
 
-    private String name;
-    private String login;
-    private String password;
-    private UserRole role;
+    public String name;
+    public String login;
+    public String password;
+    public UserRole role;
 
     public User() {
         this.role = UserRole.USER;

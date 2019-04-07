@@ -24,11 +24,11 @@ public class UserResourceTest extends RESTResourceTest {
 
     private User getUserData(String name, String surname, String login, String password) {
         User user = new User();
-        user.setName(name);
-        user.setSurname(surname);
-        user.setLogin(login);
-        user.setPassword(password);
-        user.setRole(UserRole.USER);
+        user.name=name;
+        user.surname=surname;
+        user.login=login;
+        user.password=password;
+        user.role=UserRole.USER;
         return user;
     }
 
@@ -39,7 +39,7 @@ public class UserResourceTest extends RESTResourceTest {
                 .when().get("/users")
                 .then().assertThat().statusCode(200)
                 .extract().as(UsersPage.class);
-        users.getContent().stream().forEach((user) -> logger.info(user.getSurname()));
+        users.content.stream().forEach((user) -> logger.info(user.surname));
         TestUtil.checkObjectIsNotNull("Users", users);
     }
 
@@ -47,19 +47,19 @@ public class UserResourceTest extends RESTResourceTest {
     @Test
     public void testCreateUser() {
         User user = new User();
-        user.setLogin("agoncalves");
-        user.setPassword("agoncalves");
-        user.setName("Antonio");
-        user.setSurname("Goncalves");
-        user.setRole(UserRole.ADMIN);
+        user.login="agoncalves";
+        user.password="agoncalves";
+        user.name="Antonio";
+        user.surname="Goncalves";
+        user.role=UserRole.ADMIN;
 
         User userCreated = given().body(user)
                 .when().post("/users/user")
                 .then().assertThat().statusCode(anyOf(is(200), is(201)))
                 .extract().as(User.class);
         TestUtil.checkObjectIsNotNull("User", userCreated);
-        TestUtil.checkField("Name", "Antonio", userCreated.getName());
-        TestUtil.checkField("Surname", "Goncalves", userCreated.getSurname());
+        TestUtil.checkField("Name", "Antonio", userCreated.name);
+        TestUtil.checkField("Surname", "Goncalves", userCreated.surname);
     }
 
     @Description("Delete a User by id")
@@ -73,11 +73,11 @@ public class UserResourceTest extends RESTResourceTest {
             .extract().as(User.class);
         Assertions.assertNotNull(userCreated);
         given()
-            .when().delete("/users/" + userCreated.getId())
+            .when().delete("/users/" + userCreated.id)
             .then().assertThat().statusCode(anyOf(is(200), is(201), is(202), is(203), is(204)));
 
         int statusCode = given()
-            .when().get("/users/" + userCreated.getId())
+            .when().get("/users/" + userCreated.id)
             .then()
             .extract().statusCode();
         TestUtil.checkField("Status Code after a GET", 404, statusCode);
@@ -122,16 +122,16 @@ public class UserResourceTest extends RESTResourceTest {
             .extract().as(User.class);
         Assertions.assertNotNull(userCreated);
         User userRetrieved = given()
-            .when().get("/users/" + userCreated.getId())
+            .when().get("/users/" + userCreated.id)
             .then().assertThat().statusCode(anyOf(is(200), is(201)))
             .extract().as(User.class);
-        TestUtil.checkObjectIsNotNull("User ID " + userRetrieved.getId(), userRetrieved.getId());
+        TestUtil.checkObjectIsNotNull("User ID " + userRetrieved.id, userRetrieved.id);
         if (userRetrieved != null) {
-            TestUtil.checkField("Name", userCreated.getName(), userRetrieved.getName());
-            TestUtil.checkField("Suname", userCreated.getSurname(), userRetrieved.getSurname());
-            TestUtil.checkField("Login", userCreated.getLogin(), userRetrieved.getLogin());
-            TestUtil.checkField("Password", userCreated.getPassword(), userRetrieved.getPassword());
-            TestUtil.checkField("Role", userCreated.getRole().toString(), userRetrieved.getRole().toString());
+            TestUtil.checkField("Name", userCreated.name, userRetrieved.name);
+            TestUtil.checkField("Suname", userCreated.surname, userRetrieved.surname);
+            TestUtil.checkField("Login", userCreated.login, userRetrieved.login);
+            TestUtil.checkField("Password", userCreated.password, userRetrieved.password);
+            TestUtil.checkField("Role", userCreated.role.toString(), userRetrieved.role.toString());
         }
     }
 

@@ -1,17 +1,15 @@
 package com.systelab.seed.model;
 
-import lombok.Data;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-@Data
 public class Page<T> implements Serializable {
 
-    private long totalElements;
+    public long totalElements;
 
-    private List<T> content;
+    public List<T> content;
 
     public Page() {
         this.content = new ArrayList();

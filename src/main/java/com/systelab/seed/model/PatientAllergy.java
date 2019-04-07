@@ -1,24 +1,22 @@
 package com.systelab.seed.model;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 import java.io.Serializable;
 import java.time.LocalDate;
 
-@Getter
-@Setter
-@NoArgsConstructor
 public class PatientAllergy implements Serializable {
 
 
-    private Patient patient;
-    private Allergy allergy;
+    public Patient patient;
+    public Allergy allergy;
 
-    private LocalDate lastOccurrence;
-    private LocalDate assertedDate;
+    public LocalDate lastOccurrence;
+    public LocalDate assertedDate;
 
-    private String note;
+    public String note;
+
+    public PatientAllergy() {
+
+    }
 
     public PatientAllergy(Patient patient, Allergy allergy) {
         this.patient = patient;

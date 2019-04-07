@@ -22,42 +22,42 @@ public class PatientResourceTest extends RESTResourceTest {
 
     private Patient getPatientData() {
         Patient patient = new Patient();
-        patient.setName("Ralph"); // Not NULL
-        patient.setSurname("Burrows"); // Not NULL
-        patient.setEmail("rburrows@gmail.com"); // Format validated
-        patient.setMedicalNumber("123456");
-        patient.setDob(LocalDate.of(1948, 8, 11));
+        patient.name="Ralph"; // Not NULL
+        patient.surname="Burrows"; // Not NULL
+        patient.email="rburrows@gmail.com"; // Format validated
+        patient.medicalNumber="123456";
+        patient.dob=LocalDate.of(1948, 8, 11);
         Address address = new Address();
-        address.setStreet("E-Street, 90");
-        address.setCity("Barcelona");
-        address.setZip("08021");
-        patient.setAddress(address);
+        address.street="E-Street, 90";
+        address.city="Barcelona";
+        address.zip="08021";
+        patient.address=address;
         return patient;
     }
 
     private Patient getPatientData(String name, String surname, String email) {
         Patient patient = getPatientData();
-        patient.setName(name);
-        patient.setSurname(surname);
-        patient.setEmail(email);
+        patient.name=name;
+        patient.surname=surname;
+        patient.email=email;
         return patient;
     }
 
     private Patient getPatientData(String name, String surname, String email, String medicalNumber) {
         Patient patient = getPatientData();
-        patient.setName(name);
-        patient.setSurname(surname);
-        patient.setEmail(email);
-        patient.setMedicalNumber(medicalNumber);
+        patient.name=name;
+        patient.surname=surname;
+        patient.email=email;
+        patient.medicalNumber=medicalNumber;
         return patient;
     }
 
     private Patient getPatientData(String name, String surname, String email, String medicalNumber, LocalDate dob, String street, String city, String zip) {
         Patient patient = getPatientData(name, surname, email, medicalNumber);
-        patient.setDob(dob);
-        patient.getAddress().setStreet(street);
-        patient.getAddress().setCity(city);
-        patient.getAddress().setZip(zip);
+        patient.dob=dob;
+        patient.address.street=street;
+        patient.address.city=city;
+        patient.address.zip=zip;
         return patient;
     }
 
@@ -78,14 +78,14 @@ public class PatientResourceTest extends RESTResourceTest {
                 .then().assertThat().statusCode(200)
                 .extract().as(Patient.class);
         TestUtil.checkObjectIsNotNull("Patient", patientCreated);
-        TestUtil.checkField("Name", expectedName, patientCreated.getName());
-        TestUtil.checkField("Surname", expectedSurname, patientCreated.getSurname());
-        TestUtil.checkField("Email", expectedEmail, patientCreated.getEmail());
-        TestUtil.checkField("Medical Number", expectedMedNumber, patientCreated.getMedicalNumber());
-        TestUtil.checkField("DOB", expectedDob, patientCreated.getDob());
-        TestUtil.checkField("Street", expectedStreet, patientCreated.getAddress().getStreet());
-        TestUtil.checkField("City", expectedCity, patientCreated.getAddress().getCity());
-        TestUtil.checkField("Zip", expectedZip, patientCreated.getAddress().getZip());
+        TestUtil.checkField("Name", expectedName, patientCreated.name);
+        TestUtil.checkField("Surname", expectedSurname, patientCreated.surname);
+        TestUtil.checkField("Email", expectedEmail, patientCreated.email);
+        TestUtil.checkField("Medical Number", expectedMedNumber, patientCreated.medicalNumber);
+        TestUtil.checkField("DOB", expectedDob, patientCreated.dob);
+        TestUtil.checkField("Street", expectedStreet, patientCreated.address.street);
+        TestUtil.checkField("City", expectedCity, patientCreated.address.city);
+        TestUtil.checkField("Zip", expectedZip, patientCreated.address.zip);
     }
 
     @Description("Create a new patient with name, surname, email, medical number, dob, and complete address")
@@ -105,14 +105,14 @@ public class PatientResourceTest extends RESTResourceTest {
                 .then().assertThat().statusCode(200)
                 .extract().as(Patient.class);
         TestUtil.checkObjectIsNotNull("Patient", patientCreated);
-        TestUtil.checkField("Name", expectedName, patientCreated.getName());
-        TestUtil.checkField("Surname", expectedSurname, patientCreated.getSurname());
-        TestUtil.checkField("Email", expectedEmail, patientCreated.getEmail());
-        TestUtil.checkField("Medical Number", expectedMedNumber, patientCreated.getMedicalNumber());
-        TestUtil.checkField("DoB", expectedDob, patientCreated.getDob());
-        TestUtil.checkField("Street", expectedStreet, patientCreated.getAddress().getStreet());
-        TestUtil.checkField("City", expectedCity, patientCreated.getAddress().getCity());
-        TestUtil.checkField("Zip", expectedZip, patientCreated.getAddress().getZip());
+        TestUtil.checkField("Name", expectedName, patientCreated.name);
+        TestUtil.checkField("Surname", expectedSurname, patientCreated.surname);
+        TestUtil.checkField("Email", expectedEmail, patientCreated.email);
+        TestUtil.checkField("Medical Number", expectedMedNumber, patientCreated.medicalNumber);
+        TestUtil.checkField("DoB", expectedDob, patientCreated.dob);
+        TestUtil.checkField("Street", expectedStreet, patientCreated.address.street);
+        TestUtil.checkField("City", expectedCity, patientCreated.address.city);
+        TestUtil.checkField("Zip", expectedZip, patientCreated.address.zip);
     }
 
     private void testCreateInvalidPatient(Patient patient) {
@@ -156,7 +156,7 @@ public class PatientResourceTest extends RESTResourceTest {
 
     @Attachment(value = "Patients Database")
     private String savePatientsDatabase(List<Patient> patients) {
-        return patients.stream().map((patient) -> patient.getSurname() + ", " + patient.getName() + "\t" + patient.getEmail()).collect(joining("\n"));
+        return patients.stream().map((patient) -> patient.surname + ", " + patient.name + "\t" + patient.email).collect(joining("\n"));
     }
 
     @Step("Action: Create {0} patients")
@@ -169,7 +169,7 @@ public class PatientResourceTest extends RESTResourceTest {
                     .then().assertThat().statusCode(200)
                     .extract().as(Patient.class);
 
-            Assertions.assertNotNull(patientCreated.getId(), "Patient not created");
+            Assertions.assertNotNull(patientCreated.id, "Patient not created");
         }
     }
 
@@ -183,8 +183,8 @@ public class PatientResourceTest extends RESTResourceTest {
                 .when().get("/patients")
                 .then().assertThat().statusCode(200)
                 .extract().as(PatientsPage.class);
-        long initialSize = patientsBefore.getTotalElements();
-        savePatientsDatabase(patientsBefore.getContent());
+        long initialSize = patientsBefore.totalElements;
+        savePatientsDatabase(patientsBefore.content);
 
         createSomePatients(numberOfPatients);
 
@@ -192,8 +192,8 @@ public class PatientResourceTest extends RESTResourceTest {
                 .when().get("/patients")
                 .then().assertThat().statusCode(200)
                 .extract().as(PatientsPage.class);
-        long finalSize = patientsAfter.getTotalElements();
-        savePatientsDatabase(patientsAfter.getContent());
+        long finalSize = patientsAfter.totalElements;
+        savePatientsDatabase(patientsAfter.content);
 
         TestUtil.checkANumber("List size", initialSize + numberOfPatients, finalSize);
     }
@@ -208,19 +208,19 @@ public class PatientResourceTest extends RESTResourceTest {
                 .then().assertThat().statusCode(200)
                 .extract().as(Patient.class);
 
-        TestUtil.checkObjectIsNotNull("Patient ID " + patientCreated.getId(), patientCreated.getId());
+        TestUtil.checkObjectIsNotNull("Patient ID " + patientCreated.id, patientCreated.id);
         Patient patientRetrieved = given()
-                .when().get("/patients/" + patientCreated.getId())
+                .when().get("/patients/" + patientCreated.id)
                 .then().assertThat().statusCode(200)
                 .extract().as(Patient.class);
         Assertions.assertNotNull(patientRetrieved, "Patient not retrieved");
         if (patientRetrieved != null) {
-            TestUtil.checkField("Name", "John", patientRetrieved.getName());
-            TestUtil.checkField("Surname", "Burrows", patientRetrieved.getSurname());
-            TestUtil.checkField("Email", "jburrows@werfen.com", patientRetrieved.getEmail());
+            TestUtil.checkField("Name", "John", patientRetrieved.name);
+            TestUtil.checkField("Surname", "Burrows", patientRetrieved.surname);
+            TestUtil.checkField("Email", "jburrows@werfen.com", patientRetrieved.email);
 
-            TestUtil.checkField("Medical Number", "123456", patientRetrieved.getMedicalNumber());
-            TestUtil.checkField("DOB", LocalDate.of(1948, 8, 11), patientRetrieved.getDob());
+            TestUtil.checkField("Medical Number", "123456", patientRetrieved.medicalNumber);
+            TestUtil.checkField("DOB", LocalDate.of(1948, 8, 11), patientRetrieved.dob);
         }
     }
 
@@ -245,11 +245,11 @@ public class PatientResourceTest extends RESTResourceTest {
 
         Assertions.assertNotNull(patientCreated, "Patient not created");
         given()
-                .when().delete("/patients/" + patientCreated.getId())
+                .when().delete("/patients/" + patientCreated.id)
                 .then().assertThat().statusCode(200);
 
         int statusCode = given()
-                .when().get("/patients/" + patientCreated.getId())
+                .when().get("/patients/" + patientCreated.id)
                 .then()
                 .extract().statusCode();
         TestUtil.checkField("Status Code after a GET", 404, statusCode);
@@ -274,21 +274,21 @@ public class PatientResourceTest extends RESTResourceTest {
                 .then().assertThat().statusCode(200)
                 .extract().as(Patient.class);
         Assertions.assertNotNull(patientCreated, "Patient not created");
-        patientCreated.setEmail("new@emailchanged.com");
+        patientCreated.email="new@emailchanged.com";
         Patient patientUpdated = given().body(patientCreated)
-                .when().put("/patients/" + patientCreated.getId())
+                .when().put("/patients/" + patientCreated.id)
                 .then().assertThat().statusCode(200)
                 .extract().as(Patient.class);
         Assertions.assertNotNull(patientUpdated, "Patient not updated");
 
-        TestUtil.checkField("Email", patientCreated.getEmail(), patientUpdated.getEmail());
-        TestUtil.checkField("Name", patientCreated.getName(), patientUpdated.getName());
-        TestUtil.checkField("Surname", patientCreated.getSurname(), patientUpdated.getSurname());
-        TestUtil.checkField("Medical Number", patientCreated.getMedicalNumber(), patientUpdated.getMedicalNumber());
-        TestUtil.checkField("DoB", patientCreated.getDob(), patientUpdated.getDob());
-        TestUtil.checkField("Street", patientCreated.getAddress().getStreet(), patientUpdated.getAddress().getStreet());
-        TestUtil.checkField("City", patientCreated.getAddress().getCity(), patientUpdated.getAddress().getCity());
-        TestUtil.checkField("Zip", patientCreated.getAddress().getZip(), patientUpdated.getAddress().getZip());
+        TestUtil.checkField("Email", patientCreated.email, patientUpdated.email);
+        TestUtil.checkField("Name", patientCreated.name, patientUpdated.name);
+        TestUtil.checkField("Surname", patientCreated.surname, patientUpdated.surname);
+        TestUtil.checkField("Medical Number", patientCreated.medicalNumber, patientUpdated.medicalNumber);
+        TestUtil.checkField("DoB", patientCreated.dob, patientUpdated.dob);
+        TestUtil.checkField("Street", patientCreated.address.street, patientUpdated.address.street);
+        TestUtil.checkField("City", patientCreated.address.city, patientUpdated.address.city);
+        TestUtil.checkField("Zip", patientCreated.address.zip, patientUpdated.address.zip);
     }
 
     @Description("Update non-existent patient, that is Create new Patient")
@@ -301,13 +301,13 @@ public class PatientResourceTest extends RESTResourceTest {
                 .extract().as(Patient.class);
         Assertions.assertNotNull(patientCreated, "Patient not created");
 
-        TestUtil.checkField("Email", patientCreated.getEmail(), patient.getEmail());
-        TestUtil.checkField("Name", patientCreated.getName(), patient.getName());
-        TestUtil.checkField("Surname", patientCreated.getSurname(), patient.getSurname());
-        TestUtil.checkField("Medical Number", patientCreated.getMedicalNumber(), patient.getMedicalNumber());
-        TestUtil.checkField("DoB", patientCreated.getDob(), patient.getDob());
-        TestUtil.checkField("Street", patientCreated.getAddress().getStreet(), patient.getAddress().getStreet());
-        TestUtil.checkField("City", patientCreated.getAddress().getCity(), patient.getAddress().getCity());
-        TestUtil.checkField("Zip", patientCreated.getAddress().getZip(), patient.getAddress().getZip());
+        TestUtil.checkField("Email", patientCreated.email, patient.email);
+        TestUtil.checkField("Name", patientCreated.name, patient.name);
+        TestUtil.checkField("Surname", patientCreated.surname, patient.surname);
+        TestUtil.checkField("Medical Number", patientCreated.medicalNumber, patient.medicalNumber);
+        TestUtil.checkField("DoB", patientCreated.dob, patient.dob);
+        TestUtil.checkField("Street", patientCreated.address.street, patient.address.street);
+        TestUtil.checkField("City", patientCreated.address.city, patient.address.city);
+        TestUtil.checkField("Zip", patientCreated.address.zip, patient.address.zip);
     }
 }

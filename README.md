@@ -1,24 +1,24 @@
-# Test Api
+# Seed Test
 
-Simple application to test the Api compliance
+TestContainers based test to ensure the different backend compatibility
 
 ## Getting Started
 
-To get you started you can simply clone the `test-api` repository and install the dependencies:
+To get you started you can simply clone the `seed-test` repository and install the dependencies:
 
 ### Prerequisites
 
-You need [git][git] to clone the `test-api` repository.
+You need [git][git] to clone the `seed-test` repository.
 
 You will need [Java™ SE Development Kit 8][jdk-download] and [Maven][maven].
 
-### Clone `test-api`
+### Clone `seed-test`
 
-Clone the `test-api` repository using git:
+Clone the `seed-test` repository using git:
 
 ```bash
-git clone https://github.com/systelab/test-api.git
-cd test-api
+git clone https://github.com/systelab/seed-test.git
+cd seed-test
 ```
 
 ### Install Dependencies
